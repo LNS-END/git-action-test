@@ -1,36 +1,37 @@
-name: Python Version Output
+name: Python application test with Github Actions
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10']
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+        python-version: [3.8, 3.9, 3.10]
 
-    - name: Set up Python
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Print Python version
-      run: python --version
-      
-      
-    - name: Save output to file
+    - name: Install dependencies
       run: |
-        echo "Python Version: ${{ matrix.python-version }}" > output-${{ matrix.python-version }}.txt
-        python --version >> output-${{ matrix.python-version }}.txt
-        
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-    - name: Upload output file
+    - name: Run script and save output
+      run: |
+        python your-script.py > output.txt
+
+    - name: Upload output as artifact
       uses: actions/upload-artifact@v2
       with:
-        name: output-${{ matrix.python-version }}
-        path: output-${{ matrix.python-version }}.txt
+        name: output-python${{ matrix.python-version }}
+        path: output.txt
