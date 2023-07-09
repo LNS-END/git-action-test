@@ -1,6 +1,6 @@
 name: Python application test with Github Actions
 
-on: workflow_dispatch
+on: [push]
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
         set -e
         echo "Python Version: ${{ matrix.python-version }}" > output.txt
         python --version >> output.txt
-        CHANGED_FILES=$(git diff --name-only HEAD HEAD~1)
+        CHANGED_FILES=$(git diff --name-only --diff-filter=d HEAD HEAD~1)
         for FILE in $CHANGED_FILES
         do
           if [[ $FILE == *.py ]]
