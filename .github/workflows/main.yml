@@ -21,9 +21,13 @@ jobs:
 
     - name: Print Python version
       run: python --version
-
+      
+      
     - name: Save output to file
-      run: echo "Python ${{ matrix.python-version }}:$(python --version)" >> output-${{ matrix.python-version }}.txt
+      run: |
+        echo "Python Version: ${{ matrix.python-version }}" > output-${{ matrix.python-version }}.txt
+        python --version >> output-${{ matrix.python-version }}.txt
+        
 
     - name: Upload output file
       uses: actions/upload-artifact@v2
