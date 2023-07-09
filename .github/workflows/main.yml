@@ -27,6 +27,7 @@ jobs:
 
     - name: Run changed Python files and save output
       run: |
+        set -e
         echo "Python Version: ${{ matrix.python-version }}" > output.txt
         python --version >> output.txt
         CHANGED_FILES=$(git diff --name-only HEAD HEAD~1)
