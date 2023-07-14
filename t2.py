@@ -1,4 +1,5 @@
-print("oh god!")
-
-a=3+5
+print("Hello")
+print("test")
+print("why it's working?")
+a=5
 print(a)
