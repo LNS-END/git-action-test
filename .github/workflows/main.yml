@@ -13,19 +13,23 @@ jobs:
 
     steps:
     - name: Checkout repository
+      if: github.event_name != 'deleted'
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
       
     - name: Set up Python ${{ matrix.python-version }}
+      if: github.event_name != 'deleted'
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
 
     - name: Print Python version
+      if: github.event_name != 'deleted'
       run: python --version
 
     - name: Run changed Python files and save output
+      if: github.event_name != 'deleted'
       run: |
         set -e
         echo "Python Version: ${{ matrix.python-version }}" > output.txt
@@ -40,6 +44,7 @@ jobs:
           fi
         done
     - name: Upload output as artifact
+      if: github.event_name != 'deleted'
       uses: actions/upload-artifact@v2
       with:
         name: output-python${{ matrix.python-version }}
